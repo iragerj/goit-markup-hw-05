@@ -17,6 +17,9 @@
   --rare-bgc-color: #f5f4fa;
   --order-btn-hover: #188ce8;
   --bgc-light-grey: #afb1b8;
+
+  /*animation*/
+  --animation: 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 h1,
@@ -52,6 +55,56 @@ ul {
 a {
   text-decoration: none;
 }
+
+/*modal*/
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  transition-property: opacity, visibility;
+  transition-duration: 500ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 500ms;
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 528px;
+  height: 581px;
+  background-color: var(--frequent-white);
+  border-radius: 4px;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 1px rgba(0, 0, 0, 0.14),
+    0px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+.backdrop.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.modal-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: var(--frequent-white);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
 /*studio portfolio common*/
 
 /* header */
@@ -147,6 +200,8 @@ a {
   font-size: 14px;
   line-height: calc(16 / 14);
   letter-spacing: 0.02em;
+  position: relative;
+  transition: color var(--animation);
 }
 
 .list-link:hover,
@@ -162,6 +217,7 @@ a {
   font-size: 14px;
   line-height: calc(16 / 14);
   letter-spacing: 0.02em;
+  transition: color var(--animation), fill var(--animation);
 }
 
 .contacts-link:hover,
@@ -172,6 +228,17 @@ a {
 
 .list-link.current {
   color: var(--text-hover);
+}
+
+.list-link.current::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: block;
+  height: 4px;
+  background-color: var(--text-hover);
+  border-radius: 2px;
 }
 
 .header-section {
@@ -213,6 +280,8 @@ a {
   border-radius: 4px;
   padding: 10px 32px;
   border: none;
+  transition: background-color var(--animation), box-shadow var(--animation),
+    border-radius var(--animation);
 }
 
 .order-btn:hover,
@@ -297,8 +366,27 @@ a {
   margin-bottom: 50px;
 }
 
+.descr-text {
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  font-weight: 700;
+  line-height: calc(16 / 14);
+  text-transform: uppercase;
+  width: 100%;
+  height: 70px;
+  justify-content: center;
+  align-items: center;
+  color: var(--frequent-white);
+  background-color: rgba(47, 48, 58, 0.8);
+}
+
 .descr-list {
   display: flex;
+}
+
+.descr-item {
+  position: relative;
 }
 
 .descr-list .descr-item:not(:last-child) {
@@ -357,6 +445,7 @@ a {
   width: 20px;
   height: 20px;
   fill: var(--bgc-light-grey);
+  transition: fill var(--animation);
 }
 
 .social-list .social-net:not(:last-child) {
@@ -370,6 +459,7 @@ a {
   width: 44px;
   height: 44px;
   border-radius: 50%;
+  transition: background-color var(--animation);
 }
 
 .social-link:hover,
@@ -400,6 +490,7 @@ a {
   height: 92px;
   border: 1px solid var(--bgc-light-grey);
   border-radius: 4px;
+  transition: fill var(--animation), border-color var(--animation);
 }
 
 .clients-item:not(:last-child) {
@@ -468,7 +559,6 @@ a {
   font-size: 14px;
   line-height: 16px;
   text-transform: uppercase;
-  margin-bottom: 20px;
 }
 
 .footer-item {
@@ -513,6 +603,7 @@ a {
   border-radius: 4px;
   border: none;
   padding: 6px 25px;
+  transition: background-color var(--animation), color var(--animation), box-shadow var(--animation);
 }
 
 .btn:hover,
@@ -530,6 +621,7 @@ a {
 
 .examples-link {
   display: block;
+  transition: box-shadow var(--animation);
 }
 
 .examples-link:hover,
@@ -569,4 +661,33 @@ a {
   border-right: 1px solid var(--primary-border-color);
   border-bottom: 1px solid var(--primary-border-color);
   border-left: 1px solid var(--primary-border-color);
+}
+
+.examples-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.examples-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateY(100%);
+  transition: transform var(--animation);
+  width: 100%;
+  height: 100%;
+  padding: 65px 25px 61px 23px;
+  background-color: rgba(33, 150, 243, 0.9);
+}
+
+.overlay-text {
+  font-size: 18px;
+  line-height: calc(28 / 18);
+  letter-spacing: 0.03em;
+  color: var(--frequent-white);
+}
+
+.examples-item:hover .examples-overlay,
+.examples-item:focus .examples-overlay {
+  transform: translateY(0);
 }
